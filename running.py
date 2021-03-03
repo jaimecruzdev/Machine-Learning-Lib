@@ -28,6 +28,7 @@ from MLlib.EasyCNN import EasyCNN
 
 def main():
 
+	preco2()
     #working_LR()
     #working_MR_Startups()
     #working_model_bwrd_elimination()
@@ -70,8 +71,28 @@ def main():
     #working_grid_search()
     #working_grid_search_easy()
     #working_xgboost()
-    working_xgboost_easy()
+    #working_xgboost_easy()
 
+def preco2():
+    
+    #Preping data
+
+    #We create the EasyReg object to read file and explore data. 
+    MLobj=EasyReg()    
+    MLobj.read("C:/Users/4256GU/Desktop/Data Analytics/PRECO2/donnees/inputs_clean_csv 2.csv",encod='cp1252',delim=";")
+    MLobj.explore()
+    
+    #Split X and Y. We'll predict the gaz consomption (Y)
+    MLobj.split_X_y(1)
+    
+    #We keep with X the current meteo, previous gaz consumption, vacations, labor day and previous temperatures. 
+    #MLobj.X=MLobj.X[:,[1]+range(7,31)+[31,32]+range(33,57)+range(64,88)]
+    MLobj.X=MLobj.X[:,[1]+list(range(7,31))+[31,32]+list(range(33,57))+list(range(64,88))]    
+    
+    #See what we get at X
+    print(MLobj.myDS.columns[[1]+list(range(7,31))+[31,32]+list(range(33,57))+list(range(64,88))])
+    MayML.exploreArray(MLobj.X,"X")
+	
 def working_xgboost_easy():
 
     #Read data

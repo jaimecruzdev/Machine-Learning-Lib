@@ -19,7 +19,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import LabelEncoder,OneHotEncoder
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
@@ -42,7 +42,7 @@ class MayML():
         self.sc_y=None
         self.init=True
         
-    def read (self,theFile,headCols=0,typeOfFile="csv"):
+    def read (self,theFile,headCols=0,typeOfFile="csv",encod="UTF-8",delim=";"):
         """ read (self,theFile)
         
         Read file. CSV by default.
@@ -50,13 +50,15 @@ class MayML():
         theFile: File to be read
         headCols=0: columns to be read, if it's 0, it will take the first row 
         by default, if it's None, it means that there's no header.
+        encod=Encoding for the file.
+        delim=delimiter of columns of the file. 
         """
     
         if typeOfFile=="csv":
-            self.myDS = pd.read_csv(theFile,header=headCols)
+            self.myDS = pd.read_csv(theFile,header=headCols,encoding=encod,delimiter=delim)
         elif typeOfFile=="tsv":
             self.myDS = pd.read_csv(theFile,header=headCols,delimiter="\t",quoting=3)            
-    
+   
     def explore (self):
         """ explore (self)
         
@@ -89,9 +91,44 @@ class MayML():
         
         print(self.myDS.info())
         print()
-        print("**********")        
+        print("**********")  
         
-    
+    def exploreArray (theArray,theLabel):        
+        """ explore (theArray)
+        
+        Explore array converting it previously to a dataset
+        """
+        theDS=pd.DataFrame(theArray)        
+
+        print()    
+        print("Exploring Array ... "+theLabel)
+        print()
+        print()        
+
+        print("**********")    
+        print("Samples : ")
+        print("**********")
+        print()
+        
+        print(theDS.sample(5))
+        
+        print()
+        print("**********")    
+        print("Describe : ")
+        print("**********")
+        print()
+        
+        print(theDS.describe())
+        print()
+        print("**********")    
+        print("Info : ")
+        print("**********")
+        print()
+        
+        print(theDS.info())
+        print()
+        print("**********")  
+        
     def split_X_y (self,yColumn=-1):
         """split_X_y (self,yColumn=-1)
         
